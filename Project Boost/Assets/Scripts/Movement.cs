@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    private Rigidbody rigidBody;
     [SerializeField] private float thrustingAdjustment;
     [SerializeField] private float rotationAdjustment;
+    [SerializeField] private AudioClip thrustSFX;
+    private Rigidbody rigidBody;
     private AudioSource audioSource;
     //comment 
     // Start is called before the first frame update
@@ -14,7 +15,7 @@ public class Movement : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         thrustingAdjustment = 1000f;
-        rotationAdjustment = 10f * Time.deltaTime;
+        rotationAdjustment = 100f;// * Time.deltaTime;
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -29,15 +30,16 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            if(!audioSource.isPlaying)
-                audioSource.Play();
+            if (!audioSource.isPlaying)
+                audioSource.PlayOneShot(thrustSFX);
             rigidBody.AddRelativeForce(thrustingAdjustment * Time.deltaTime * Vector3.up);
         }
-        else if(audioSource.isPlaying)
-                audioSource.Stop();
+        else if (audioSource.isPlaying)
+            audioSource.Pause();
 
     }
-    private void handleRotation() {
+    private void handleRotation()
+    {
         if (Input.GetKey(KeyCode.A))
         {
             processRotation(-1);
@@ -51,7 +53,7 @@ public class Movement : MonoBehaviour
     private void processRotation(int x)
     {
         rigidBody.freezeRotation = true; // giving higher priority to manual rotation
-        transform.Rotate(x * rotationAdjustment, 0, 0);
+        transform.Rotate(x * rotationAdjustment * Time.deltaTime, 0, 0);
         rigidBody.freezeRotation = false; // giving physics system back priority rotation
     }
 
