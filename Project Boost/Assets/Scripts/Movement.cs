@@ -7,6 +7,12 @@ public class Movement : MonoBehaviour
     [SerializeField] private float thrustingAdjustment;
     [SerializeField] private float rotationAdjustment;
     [SerializeField] private AudioClip thrustSFX;
+    [SerializeField] private ParticleSystem leftRotation;
+    [SerializeField] private ParticleSystem rightRotation;
+    [SerializeField] private ParticleSystem leftEngine;
+    [SerializeField] private ParticleSystem rightEngine;
+
+
     private Rigidbody rigidBody;
     private AudioSource audioSource;
     //comment 
@@ -24,6 +30,7 @@ public class Movement : MonoBehaviour
     {
         handleThrusting();
         handleRotation();
+
     }
 
     private void handleThrusting()
@@ -33,21 +40,40 @@ public class Movement : MonoBehaviour
             if (!audioSource.isPlaying)
                 audioSource.PlayOneShot(thrustSFX);
             rigidBody.AddRelativeForce(thrustingAdjustment * Time.deltaTime * Vector3.up);
+            if (!leftEngine.isPlaying)
+                leftEngine.Play();
+            if (!rightEngine.isPlaying)
+                rightEngine.Play();
         }
-        else if (audioSource.isPlaying)
-            audioSource.Pause();
+        else
+        {
+            audioSource.Stop();
+            leftEngine.Stop();
+            rightEngine.Stop();
+        }
 
     }
     private void handleRotation()
     {
         if (Input.GetKey(KeyCode.A))
         {
+            if (!leftRotation.isPlaying)
+                leftRotation.Play();
             processRotation(-1);
         }
         else if (Input.GetKey(KeyCode.D))
         {
+            if (leftRotation.isPlaying)
+                leftRotation.Stop();
+            if (!rightRotation.isPlaying)
+                rightRotation.Play();
             processRotation(1);
             // transform.Rotate(Vector3.forward);
+        }
+        else
+        {
+            leftRotation.Stop();
+            rightRotation.Stop();
         }
     }
     private void processRotation(int x)

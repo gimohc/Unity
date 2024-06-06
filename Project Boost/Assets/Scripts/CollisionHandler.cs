@@ -8,9 +8,14 @@ public class CollisionHandler : MonoBehaviour
 {
     [SerializeField] private AudioClip success;
     [SerializeField] private AudioClip fail;
+
+    [SerializeField] private ParticleSystem successParticles;
+    [SerializeField] private ParticleSystem failParticles;
+
     private Movement movementScript;
     private AudioSource audioSource;
 
+    private bool isTransitioning = false;
 
     private void Start()
     {
@@ -21,6 +26,9 @@ public class CollisionHandler : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        if (isTransitioning)
+            return;
+
         switch (other.gameObject.tag)
         {
             /*case "Fuel":
@@ -39,10 +47,10 @@ public class CollisionHandler : MonoBehaviour
                 break;
 
         }
+        //isTransitioning = false;
     }
     private void reloadScene()
     {
-        // TODO ADD SOUNDEFFECTS
         String sceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(sceneName);
         //SceneManager.GetSceneByBuildIndex();
@@ -57,13 +65,19 @@ public class CollisionHandler : MonoBehaviour
     }
     private void crashSequence()
     {
+        isTransitioning = true;
         movementScript.enabled = false;
+        audioSource.Stop();
         audioSource.PlayOneShot(fail);
+        failParticles.Play();
         Invoke("reloadScene", 2f);
     }
     private void finishSequence()
     {
+        isTransitioning = true;
         movementScript.enabled = false;
+        audioSource.Stop();
+        successParticles.Play();
         audioSource.PlayOneShot(success);
         Invoke("loadNext", 2f);
 
