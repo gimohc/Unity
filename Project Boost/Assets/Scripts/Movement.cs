@@ -36,22 +36,26 @@ public class Movement : MonoBehaviour
     private void handleThrusting()
     {
         if (Input.GetKey(KeyCode.Space))
-        {
-            if (!audioSource.isPlaying)
+            startMainEngine();
+    
+        else
+            stopMainEngine();
+        
+
+    }
+    private void startMainEngine() {
+        if (!audioSource.isPlaying)
                 audioSource.PlayOneShot(thrustSFX);
             rigidBody.AddRelativeForce(thrustingAdjustment * Time.deltaTime * Vector3.up);
-            if (!leftEngine.isPlaying)
-                leftEngine.Play();
-            if (!rightEngine.isPlaying)
-                rightEngine.Play();
+        if(!leftEngine.isPlaying) {
+            leftEngine.Play();
+            rightEngine.Play(); // no need to check for both cause they're both starting and stopping together
         }
-        else
-        {
-            audioSource.Stop();
-            leftEngine.Stop();
-            rightEngine.Stop();
-        }
-
+    }
+    private void stopMainEngine() {
+        audioSource.Stop();
+        leftEngine.Stop();
+        rightEngine.Stop();
     }
     private void handleRotation()
     {

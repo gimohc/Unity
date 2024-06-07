@@ -26,7 +26,7 @@ public class CollisionHandler : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (isTransitioning)
+        if (isTransitioning || !DebugMode.collisionEnabled)
             return;
 
         switch (other.gameObject.tag)
@@ -56,12 +56,15 @@ public class CollisionHandler : MonoBehaviour
         //SceneManager.GetSceneByBuildIndex();
     }
 
-    private void loadNext()
+    public static void loadNext()
     {
         int sceneNumber = SceneManager.GetActiveScene().buildIndex;
         if (SceneManager.sceneCountInBuildSettings == sceneNumber + 1)
             sceneNumber = -1;
         SceneManager.LoadScene(sceneNumber + 1);
+    }
+    private void actuallyLoadNext() {
+        loadNext();
     }
     private void crashSequence()
     {
@@ -79,7 +82,10 @@ public class CollisionHandler : MonoBehaviour
         audioSource.Stop();
         successParticles.Play();
         audioSource.PlayOneShot(success);
-        Invoke("loadNext", 2f);
+        Invoke("actuallyLoadNext", 2f);
 
     }
+
+    // add new method with only the static method and make it non static. call invoke inside the non static
+
 }

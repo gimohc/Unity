@@ -222,6 +222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1982927702736392229}
   - component: {fileID: 2296769011068974937}
+  - component: {fileID: 1221995413515376552}
   - component: {fileID: 1615852417260564646}
   - component: {fileID: 5053193978659679789}
   - component: {fileID: 6802514523579873245}
@@ -283,6 +284,18 @@ MonoBehaviour:
   rightRotation: {fileID: 4967503687579729421}
   leftEngine: {fileID: 669565417762872464}
   rightEngine: {fileID: 1417233686915453268}
+--- !u!114 &1221995413515376552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002405393399857397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b95f0636ed7e4242b121a580072ed8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &1615852417260564646
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1661,6 +1674,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 198100719057022332, guid: a3553fd250eb92d4091bebde350c6739, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1739,6 +1756,10 @@ PrefabInstance:
     - target: {fileID: 4940884351362868, guid: a3553fd250eb92d4091bebde350c6739, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 198100719057022332, guid: a3553fd250eb92d4091bebde350c6739, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
